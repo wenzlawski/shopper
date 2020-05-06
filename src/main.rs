@@ -76,14 +76,26 @@ trait InShop {
 }
 
 #[derive(Debug)]
-struct Shopper {
-    money: f32,
-    capacity: u32,
+struct Shop {
+    name: String,
+    inventory: Vec<ShopItem>,
 }
 
-impl Shopper {
-    fn new(money: f32, capacity: u32) -> Shopper {
-        Shopper { money, capacity }
+impl Shop {
+    fn _new(name: String, inventory: Vec<ShopItem>) -> Shop {
+        Shop { name, inventory }
+    }
+}
+
+#[derive(Debug)]
+struct ShopItem {
+    item: Item,
+    quantity: u32,
+}
+
+impl ShopItem {
+    fn _new(item: Item, quantity: u32) -> ShopItem {
+        ShopItem { item, quantity }
     }
 }
 
@@ -102,6 +114,18 @@ impl Item {
             money: shopper.money - self.cost,
             capacity: shopper.capacity - self.size,
         }
+    }
+}
+
+#[derive(Debug)]
+struct Shopper {
+    money: f32,
+    capacity: u32,
+}
+
+impl Shopper {
+    fn new(money: f32, capacity: u32) -> Shopper {
+        Shopper { money, capacity }
     }
 }
 
