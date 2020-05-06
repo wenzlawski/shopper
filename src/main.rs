@@ -28,6 +28,34 @@ mod tests {
     }
 }
 
+/*
+   Store:
+    ** when 'in' store have extra carrying capacity.
+    ** pick up items in the store (don't buy -- add to basket)
+    ** this *temporarily* changes item count in store
+    ** can place items back
+    ** to buy basket it has to be smaller/equal in remaining shopper capacity
+    ** buying permanently changes item capacity
+
+** Out of store and in store changes traits to add basket to shopper
+
+*/
+
+trait OutShop {
+    fn get_shops(&self);
+    fn go_into_shop(&self);
+    fn go_home(&self);
+}
+
+trait InShop {
+    fn add_to_basket(&self);
+    fn buy_basket(&self);
+    fn put_back(&self);
+    fn leave_without_buying(&self);
+    // fn return_item(&self);
+    // fn steal(&self); // percent probability of getting caught -- lose
+}
+
 #[derive(Debug)]
 struct Shopper {
     money: f32,
