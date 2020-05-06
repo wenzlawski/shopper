@@ -42,18 +42,37 @@ mod tests {
 */
 
 trait OutShop {
+    // get list of all shops
     fn get_shops(&self);
+
+    // enter shop - this changes trait to InShop
     fn go_into_shop(&self);
+
+    // exit the game and display end statistics
     fn go_home(&self);
 }
 
 trait InShop {
-    fn add_to_basket(&self);
+    // Add item amount to basket and remove from shop inventory
+    fn add_to_basket(&self, quantity: u32);
+
+    // buy all items in basket, basket size has
+    // to be less/equal than shopper capacity
+    // and cost must be lower/equal than shopper money
     fn buy_basket(&self);
+
+    // Remove item from basket and add it back to shop inventory
     fn put_back(&self);
+
+    // Return whole basket and leave shop
     fn leave_without_buying(&self);
+
+    // Return an item you bought from the store
     // fn return_item(&self);
-    // fn steal(&self); // percent probability of getting caught -- lose
+
+    // Steal basket - no change in money, but basket size <= shopper capacity
+    // percent probability of getting caught -- lose
+    // fn steal(&self);
 }
 
 #[derive(Debug)]
