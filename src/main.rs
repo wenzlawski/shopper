@@ -21,9 +21,11 @@ mod tests {
     #[test]
     fn find_items_in_shop() {
         let shop = _create_generic_shop();
-        let found: Vec<&Item> = shop._get_item_by_name("Jeans");
+        let found: Vec<usize> =
+            find_item_in_inventory(&shop.inventory, "Jeans");
+        let f_item = &shop.inventory[found[0]];
 
-        assert_eq!(found[0].name, "Jeans");
+        assert_eq!(f_item.name, "Jeans");
         assert_eq!(found.len(), 2);
     }
 
@@ -36,8 +38,8 @@ mod tests {
             ._go_into_shop(String::from("Best Shop ever"), &mut mall)
             .unwrap();
 
-        shopper._take_item(String::from("Jeans"), 3).unwrap();
-        shopper._take_item(String::from("Necklace"), 1).unwrap();
+        shopper._add_to_basket(String::from("Jeans"), 3).unwrap();
+        shopper._add_to_basket(String::from("Necklace"), 1).unwrap();
 
         shopper._buy_basket().unwrap();
 
@@ -106,8 +108,6 @@ impl Mall {
     }
 }
 
-//trait Actions {}
-
 struct Shopper {
     money: f32,
     capacity: u32,
@@ -115,6 +115,7 @@ struct Shopper {
 }
 
 impl Shopper {
+    // create new shopper
     fn _new(money: f32, capacity: u32) -> Shopper {
         Shopper {
             money,
@@ -123,16 +124,12 @@ impl Shopper {
         }
     }
 
-    // enter shop - this changes trait to InShop
+    // enter shop - this changes struct to ShopperInShop
     fn _go_into_shop<'a>(
         self,
         shop_name: String,
         mall: &'a mut Mall,
     ) -> Result<ShopperInShop, &str> {
-        // Problem here is possibly that the value we get from mall doesn't
-        // live as long as the returned ShopperInShop;
-        // Possible solution would be to work with lifetime annotations or
-        // rethink how the ShopperInShop and its relation to Shop is handeled.
         let shop = mall._take_shop(shop_name);
 
         let res = match shop {
@@ -146,14 +143,6 @@ impl Shopper {
             Err(e) => Err(e),
         };
         res
-
-        //Ok(ShopperInShop {
-        //money: self.money,
-        //capacity: self.capacity,
-        //inventory: self.inventory,
-        //basket: vec![],
-        //current_location: shop,
-        //})
     }
 
     // exit the game and display end statistics
@@ -169,11 +158,13 @@ struct ShopperInShop {
 }
 
 impl ShopperInShop {
+    // buy all items in basket, basket size has
+    // to be less/equal than shopper capacity
+    // and cost must be lower/equal than shopper money
     fn _buy_basket(&mut self) -> Result<(), &str> {
         let mut tot_cost: f32 = 0.0;
         let mut tot_size: u32 = 0;
 
-        // shorten this with map?
         for b in &self.basket {
             tot_cost += b.quantity as f32 * b.cost;
             tot_size += b.quantity * b.size;
@@ -193,7 +184,12 @@ impl ShopperInShop {
         Ok(())
     }
 
-    fn _take_item(&mut self, item: String, quantity: u32) -> Result<(), &str> {
+    // Add item amount to basket and remove from shop inventory
+    fn _add_to_basket(
+        &mut self,
+        item: String,
+        quantity: u32,
+    ) -> Result<(), &str> {
         let item = self.current_location._take_item(item, quantity)?;
         self.basket.push(item);
         Ok(())
@@ -212,16 +208,20 @@ impl ShopperInShop {
         self.basket = vec![];
         &self.inventory
     }
-    // Add item amount to basket and remove from shop inventory
-    //fn add_to_basket(&self, quantity: u32) {}
-
-    // buy all items in basket, basket size has
-    // to be less/equal than shopper capacity
-    // and cost must be lower/equal than shopper money
-    //fn buy_basket(&self) {}
 
     // Remove item from basket and add it back to shop inventory
-    //fn put_back(&self) {}
+    fn _put_back(&mut self, item: Item) {
+        let found: usize = find_item_in_inventory(
+            &self.current_location.inventory,
+            &item.name,
+        )[0];
+        let mut found_item =
+            self.current_location.inventory.get_mut(found).unwrap();
+
+        found_item.quantity += item.quantity;
+        // TODO implement removal of item from buffer
+        unimplemented!();
+    }
 
     // Return whole basket and leave shop
     //fn leave_without_buying(&self) {}
@@ -232,6 +232,16 @@ impl ShopperInShop {
     // Steal basket - no change in money, but basket size <= shopper capacity
     // percent probability of getting caught -- lose
     // fn steal(&self);
+}
+
+fn find_item_in_inventory(inv: &Vec<Item>, name: &str) -> Vec<usize> {
+    let mut res: Vec<usize> = vec![];
+    for (index, item) in inv.iter().enumerate() {
+        if item.name == name {
+            res.push(index);
+        }
+    }
+    res
 }
 
 #[derive(Debug)]
@@ -247,10 +257,6 @@ impl Shop {
 
     fn _get_inventory(&self) -> &Vec<Item> {
         &self.inventory
-    }
-
-    fn _get_item_by_name(&self, name: &str) -> Vec<&Item> {
-        self.inventory.iter().filter(|x| x.name == name).collect()
     }
 
     fn _take_item(
