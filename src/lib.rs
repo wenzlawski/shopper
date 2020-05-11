@@ -1,5 +1,7 @@
+use rand::Rng;
 use std::cmp::Ordering;
 use std::io;
+extern crate rand;
 
 #[cfg(test)]
 mod tests {
@@ -121,30 +123,48 @@ impl Shopper {
 
         if tot_cost > self.money {
             return Err("Not enough money");
-        } else if tot_size > self.capacity {
+        } else if tot_size > self.remaining_capacity() {
             return Err("Not enough space in inventory");
         }
 
         self.money -= tot_cost;
-        self.capacity -= tot_size;
+        //self.capacity -= tot_size;
 
-        self._update_inventory(basket);
+        self._update_inventory(basket, false);
 
         Ok(())
     }
 
-    fn _update_inventory(&mut self, basket: &mut Basket) -> &Vec<Item> {
-        for b in &mut basket.basket[..].iter() {
+    fn _update_inventory(
+        &mut self,
+        basket: &mut Basket,
+        stolen: bool,
+    ) -> &Vec<Item> {
+        for b in &mut basket.basket[..].iter_mut() {
             for i in &mut self.inventory {
                 if b.name == i.name {
                     i.quantity += b.quantity;
                     break;
                 }
             }
+            if stolen {
+                b.is_stolen = true
+            }
             self.inventory.push(b.clone());
         }
         basket.basket = vec![];
         &self.inventory
+    }
+
+    fn remaining_capacity(&self) -> u32 {
+        self.capacity - self.taken_capacity()
+    }
+
+    fn taken_capacity(&self) -> u32 {
+        self.inventory
+            .iter()
+            .map(|x| x.size * x.quantity)
+            .sum::<u32>()
     }
 }
 
@@ -225,6 +245,7 @@ struct Item {
     cost: f32,
     size: u32,
     quantity: u32,
+    is_stolen: bool,
 }
 
 impl Item {
@@ -234,6 +255,7 @@ impl Item {
             cost,
             size,
             quantity,
+            is_stolen: false,
         }
     }
 }
@@ -347,10 +369,14 @@ fn base_loop(shopper: &mut Shopper, mall: &mut Mall) {
                     let sh_name = input[1..].join(" ");
                     match mall._find_shop(&sh_name) {
                         Some((_, index)) => {
-                            in_shop(
+                            if let Err(e) = in_shop(
                                 shopper,
                                 mall._get_mut_shop(index).unwrap(),
-                            );
+                            ) {
+                                println!("{}", e);
+                                print_stats(shopper);
+                                break;
+                            }
                         }
                         None => {
                             println!("Shop not found.");
@@ -377,7 +403,10 @@ fn base_loop(shopper: &mut Shopper, mall: &mut Mall) {
 }
 
 // loop to add items to modify the basket while in a shop
-fn in_shop(shopper: &mut Shopper, shop: &mut Shop) {
+fn in_shop<'a>(
+    shopper: &'a mut Shopper,
+    shop: &mut Shop,
+) -> Result<(), &'a str> {
     // IDEA Return an item you bought from the store
 
     let mut basket = Basket::new(53); // shop.basket_capacity (u32) for each shop
@@ -437,6 +466,7 @@ fn in_shop(shopper: &mut Shopper, shop: &mut Shop) {
                             _ => {
                                 match quantity.parse::<u32>() {
                                     Ok(n) => {
+                                        if n == 0 { continue }
                                         let founditem = basket.basket.get_mut(*i.first().unwrap()).unwrap();
                                         match founditem.quantity.cmp(&n) {
                                             // return partial amount
@@ -484,7 +514,7 @@ fn in_shop(shopper: &mut Shopper, shop: &mut Shop) {
             // Return whole basket and leave shop
             "leave" => {
                 return_basket(&mut basket, shop);
-                return;
+                return Ok(());
             },
 
             // Add contents of basket to inventory
@@ -500,7 +530,18 @@ fn in_shop(shopper: &mut Shopper, shop: &mut Shop) {
 
             // Steal basket - no change in money, but basket size <= shopper capacity
             // percent probability of getting caught -- lose
-            "steal" => unimplemented!("Still need to add steal logic"),
+            "steal" => {
+                let mut rng = rand::thread_rng();
+                let y: f64 = rng.gen(); // generates a float between 0 and 1
+                let prob_of_getting_caught = 0.1;
+                if y < prob_of_getting_caught {
+                    return Err("You got caught :( Game over...");
+                } else {
+                    println!("Success!");
+                    // add bool to item if stolen --> for stats
+                    shopper._update_inventory(&mut basket, true);
+                }
+            }
             _ => continue,
         }
     }
@@ -513,10 +554,40 @@ fn return_basket(basket: &mut Basket, shop: &mut Shop) {
     basket.basket = vec![];
 }
 
+fn print_stolen(shopper: &Shopper) {
+    let mut stolen_val = 0.0;
+    let mut stolen_cap = 0;
+    let mut stolen_goods = vec![];
+    for item in &shopper.inventory {
+        if item.is_stolen {
+            stolen_goods.push(item);
+            stolen_cap += item.size * item.quantity;
+            stolen_val += item.cost * item.quantity as f32;
+        }
+    }
+    if stolen_cap == 0 {
+        println!("You haven't stolen anything yet... boooring!")
+    } else {
+        println!("So far you have stolen:");
+        for s in stolen_goods {
+            println!("{:?}", s);
+        }
+        println!("Total value of stolen goods: ${:.2}", &stolen_val);
+        println!(
+            "Percentage of stolen goods: {:.1}%",
+            (stolen_cap as f32 / shopper.taken_capacity() as f32) * 100.0
+        );
+    }
+}
+
 fn print_stats(shopper: &Shopper) {
     println!("inventory = {:#?}", &shopper.inventory);
-    println!("money = {}", &shopper.money);
-    println!("capacity = {}", &shopper.capacity);
+    println!("money = ${:.2}", &shopper.money);
+    println!(
+        "remaining capacity = {:.1}%",
+        (shopper.remaining_capacity() as f32 / shopper.capacity as f32) * 100.0
+    );
+    print_stolen(shopper);
 }
 
 pub fn game() {
