@@ -1,5 +1,5 @@
 use std::io;
-use std::process;
+use std::cmp::Ordering;
 
 #[cfg(test)]
 mod tests {
@@ -18,14 +18,14 @@ mod tests {
         let item1 = Item::_new(String::from("Bread"), 6.5, 5, 20);
         let item2 = Item::_new(String::from("Jeans"), 63.0, 8, 6);
         let inv = vec![item1, item2];
-        let _shop = Shop::_new(String::from("BreadnJeans"), inv);
+        let _shop = Shop::_new(String::from("BreadnJeans"), inv, 322);
     }
 
     #[test]
     fn find_items_in_shop() {
         let shop = _create_generic_shop();
         let found: Vec<usize> =
-            find_item_in_inventory(&shop.inventory, "Jeans");
+            find_item_in_inventory(&shop.inventory, "Jeans").unwrap();
         let f_item = &shop.inventory[found[0]];
 
         assert_eq!(f_item.name, "Jeans");
@@ -41,7 +41,7 @@ fn _create_generic_shop() -> Shop {
     let item4 = Item::_new(String::from("Painting"), 200.0, 50, 2);
     let item5 = Item::_new(String::from("Gold"), 2000.0, 80, 0);
     let inv = vec![item1, item2, item21, item3, item4, item5];
-    Shop::_new(String::from("Best Shop ever"), inv)
+    Shop::_new(String::from("Best Shop ever"), inv, 322)
 }
 
 fn _create_generic_mall() -> Mall {
@@ -152,13 +152,15 @@ impl Shopper {
 struct Shop {
     name: String,
     inventory: Vec<Item>,
+    basket_capacity: u32,
 }
 
 impl Shop {
-    fn _new(name: String, inventory: Vec<Item>) -> Shop {
+    fn _new(name: String, inventory: Vec<Item>, basket_capacity: u32) -> Shop {
         Shop {
             name: name.split_whitespace().collect::<Vec<&str>>().join(" "),
             inventory,
+            basket_capacity,
         }
     }
 
@@ -189,13 +191,29 @@ impl Shop {
         Err("Item not found in shop.")
     }
 
-    fn _put_item_back(&mut self, item: &Item) {
+    fn _put_item_back(&mut self, item: &Item) -> Result<(), &str> {
+        self._put_amount_back(item, &item.quantity)?;
+        Ok(())
+    }
+
+    
+    fn _put_amount_back(&mut self, item: &Item, amount: &u32) -> Result<(), &str> {
         for i in &mut self.inventory {
             if item.name == i.name {
-                i.quantity += item.quantity;
-                return;
+                i.quantity += amount;
+                return Ok(());
             }
         }
+        Err("Item not found in shop.")
+    }
+    
+    fn get_item(&self, item_name: &str) -> Option<&Item> {
+        for item in &self.inventory {
+            if item.name == item_name {
+                return Some(&item);
+            }
+        }
+        None
     }
 }
 
@@ -235,17 +253,30 @@ impl Basket {
         self.basket.push(item);
     }
 
-    fn remove(&self, item: Item) {}
+    fn remove(&mut self, item_index: usize) -> Result<Item, &str> {
+        if item_index < self.basket.len() {
+            return Ok(self.basket.remove(item_index));
+        } else {
+            return Err("Out of range");
+        }
+    }
 }
 
-fn find_item_in_inventory(inv: &Vec<Item>, name: &str) -> Vec<usize> {
+fn find_item_in_inventory<'b>(
+    inv: &'b Vec<Item>,
+    name: &str,
+) -> Result<Vec<usize>, &'b str> {
     let mut res: Vec<usize> = vec![];
     for (index, item) in inv.iter().enumerate() {
         if item.name == name {
             res.push(index);
         }
     }
-    res
+    if res.len() == 0 {
+        return Err("Item not found");
+    } else {
+        return Ok(res);
+    }
 }
 
 fn get_user_input(prompt: &str) -> String {
@@ -313,7 +344,7 @@ fn base_loop(shopper: &mut Shopper, mall: &mut Mall) {
                 } else {
                     let sh_name = input[1..].join(" ");
                     match mall._find_shop(&sh_name) {
-                        Some((shop, index)) => {
+                        Some((_, index)) => {
                             in_shop(
                                 shopper,
                                 mall._get_mut_shop(index).unwrap(),
@@ -350,15 +381,6 @@ fn base_loop(shopper: &mut Shopper, mall: &mut Mall) {
 // loop to add items to modify the basket while in a shop
 fn in_shop(shopper: &mut Shopper, shop: &mut Shop) {
     // Remove item from basket and add it back to shop inventory
-    //fn _put_back(&mut self, item: Item) {
-    //let found: usize =
-    //find_item_in_inventory(&self.shop.inventory, &item.name)[0];
-    //let mut found_item = self.shop.inventory.get_mut(found).unwrap();
-
-    //found_item.quantity += item.quantity;
-    //// TODO implement removal of item from buffer
-    //unimplemented!();
-    //}
 
     // Return whole basket and leave shop
     //fn leave_without_buying(&self) {}
@@ -380,10 +402,29 @@ fn in_shop(shopper: &mut Shopper, shop: &mut Shop) {
             "add" => {
                 // get item details
                 let item_name = get_user_input(
-                    "Please type the name of an item to add it to your basket.",
+                    "Please type the name of an item to add it to your basket:",
                 );
-                let item_quanity = parse_u32("Please enter the quantity.");
+                // get a reference for the found item
+                let founditem = match shop.get_item(&item_name) {
+                    Some(i) => i,
+                    None => {
+                        println!("Item not found in shop.");
+                        continue;
+                    }
+                };
 
+                let item_quanity = parse_u32("Please enter the quantity:");
+                // chech whether the quanitiy is right
+                if item_quanity > founditem.quantity {
+                    println!("Not enough of the item left.");
+                    continue;
+                }
+                // chech whether there's space in the basket
+                if item_quanity * founditem.size > basket.basket_capacity {
+                    println!("Basket cannot hold the items.");
+                    continue;
+                }
+                
                 // find entered item details in the shop and add them to basket if found
                 match shop._take_item(&item_name, &item_quanity) {
                     Ok(i) => basket.add(i),
@@ -393,8 +434,55 @@ fn in_shop(shopper: &mut Shopper, shop: &mut Shop) {
                     }
                 }
             }
-            "return" => unimplemented!("Still need to add return logic"), // add logic to put back here
+            "return" => {
+                let item_name = get_user_input("Enter the item to return:");
+                match find_item_in_inventory(&basket.basket, &item_name){
+                    Ok(i) => {
+                        let quantity = get_user_input("Enter the amount to return ([all] for everything):");
+                        match &quantity[..] {
+                            "all" => {
+                                let item = basket.remove(*i.first().unwrap()).unwrap();
+                                shop._put_item_back(&item).unwrap();
+                            },
+                            _ => {
+                                match quantity.parse::<u32>() {
+                                    Ok(n) => {
+                                        let founditem = basket.basket.get_mut(*i.first().unwrap()).unwrap();
+                                        match founditem.quantity.cmp(&n) {
+                                            // return partial amount
+                                            Ordering::Greater => {
+                                                founditem.quantity -= n;
+                                                shop._put_amount_back(founditem, &n).unwrap();
+                                            },
+                                            // same as 'all'
+                                            Ordering::Equal => {
+                                                // duplicate at 'all' --> refactor
+                                                let item = basket.remove(*i.first().unwrap()).unwrap();
+                                                shop._put_item_back(&item).unwrap();
+                                            },
+                                            // invalid quantity
+                                            Ordering::Less => {
+                                                println!("Cannot return quantity larger than what is in basket.");
+                                                continue;
+                                            },
+                                        }
+                                    }, // _put_item_back works here too
+                                    Err(_) => {
+                                        println!("Error parsing input.");
+                                        continue;
+                                    },
+                                }
+                            },
+                        }
+                    }
+                    Err(e) => {
+                        println!("{}", e);
+                        continue;
+                    }
+                }
+            },
             "basket" => println!("{:?}", basket.basket),
+            "empty basket" => return_basket(&mut basket, shop),
             "shopinv" => println!("{:?}", shop.inventory),
             "leave" => {
                 return_basket(&mut basket, shop);
@@ -417,14 +505,9 @@ fn in_shop(shopper: &mut Shopper, shop: &mut Shop) {
 
 fn return_basket(basket: &mut Basket, shop: &mut Shop) {
     for item in &basket.basket {
-        shop._put_item_back(item);
+        shop._put_item_back(item).unwrap();
     }
     basket.basket = vec![];
-}
-
-fn exit_game(shopper: &Shopper) {
-    print_stats(&shopper);
-    process::exit(1);
 }
 
 fn print_stats(shopper: &Shopper) {
