@@ -1,5 +1,5 @@
-use std::io;
 use std::cmp::Ordering;
+use std::io;
 
 #[cfg(test)]
 mod tests {
@@ -196,8 +196,11 @@ impl Shop {
         Ok(())
     }
 
-    
-    fn _put_amount_back(&mut self, item: &Item, amount: &u32) -> Result<(), &str> {
+    fn _put_amount_back(
+        &mut self,
+        item: &Item,
+        amount: &u32,
+    ) -> Result<(), &str> {
         for i in &mut self.inventory {
             if item.name == i.name {
                 i.quantity += amount;
@@ -206,7 +209,6 @@ impl Shop {
         }
         Err("Item not found in shop.")
     }
-    
     fn get_item(&self, item_name: &str) -> Option<&Item> {
         for item in &self.inventory {
             if item.name == item_name {
@@ -366,12 +368,8 @@ fn base_loop(shopper: &mut Shopper, mall: &mut Mall) {
             }
             // display current game statistics
             Some(&"stats") => print_stats(&shopper),
-            None => {
-                println!("Please input an option.");
-                continue;
-            }
             _ => {
-                println!("Wrong input.");
+                println!("Please enter a valid option.");
                 continue;
             }
         }
@@ -380,21 +378,10 @@ fn base_loop(shopper: &mut Shopper, mall: &mut Mall) {
 
 // loop to add items to modify the basket while in a shop
 fn in_shop(shopper: &mut Shopper, shop: &mut Shop) {
-    // Remove item from basket and add it back to shop inventory
+    // IDEA Return an item you bought from the store
 
-    // Return whole basket and leave shop
-    //fn leave_without_buying(&self) {}
-
-    // Return an item you bought from the store
-    // fn return_item(&self);
-
-    // Steal basket - no change in money, but basket size <= shopper capacity
-    // percent probability of getting caught -- lose
-    // fn steal(&self);
     let mut basket = Basket::new(53); // shop.basket_capacity (u32) for each shop
     loop {
-        // TODO add management to put item back => match
-        // IDEA keywords 'leave', 'buy', 'steal' to perform respective actions
         match &get_user_input(
             "[add] another item to basket, [return] item in basket, [shopinv] to display shop inventory, [leave] to leave, [buy] to buy",
         )[..]
@@ -414,17 +401,18 @@ fn in_shop(shopper: &mut Shopper, shop: &mut Shop) {
                 };
 
                 let item_quanity = parse_u32("Please enter the quantity:");
-                // chech whether the quanitiy is right
+                // check whether the quanitiy is right
                 if item_quanity > founditem.quantity {
                     println!("Not enough of the item left.");
                     continue;
                 }
-                // chech whether there's space in the basket
+
+                // check whether there's space in the basket
                 if item_quanity * founditem.size > basket.basket_capacity {
                     println!("Basket cannot hold the items.");
                     continue;
                 }
-                
+
                 // find entered item details in the shop and add them to basket if found
                 match shop._take_item(&item_name, &item_quanity) {
                     Ok(i) => basket.add(i),
@@ -434,6 +422,8 @@ fn in_shop(shopper: &mut Shopper, shop: &mut Shop) {
                     }
                 }
             }
+
+            // Remove item from basket and add it back to shop inventory
             "return" => {
                 let item_name = get_user_input("Enter the item to return:");
                 match find_item_in_inventory(&basket.basket, &item_name){
@@ -481,13 +471,23 @@ fn in_shop(shopper: &mut Shopper, shop: &mut Shop) {
                     }
                 }
             },
+
+            // Display basket contents
             "basket" => println!("{:?}", basket.basket),
+
+            // return all items in basket to shop inventory
             "empty basket" => return_basket(&mut basket, shop),
+
+            // Display shop inventory
             "shopinv" => println!("{:?}", shop.inventory),
+
+            // Return whole basket and leave shop
             "leave" => {
                 return_basket(&mut basket, shop);
                 return;
             },
+
+            // Add contents of basket to inventory
             "buy" => {
                 match shopper.buy_basket(&mut basket) {
                     Ok(_) => {},
@@ -497,6 +497,9 @@ fn in_shop(shopper: &mut Shopper, shop: &mut Shop) {
                     }
                 }
             }
+
+            // Steal basket - no change in money, but basket size <= shopper capacity
+            // percent probability of getting caught -- lose
             "steal" => unimplemented!("Still need to add steal logic"),
             _ => continue,
         }
