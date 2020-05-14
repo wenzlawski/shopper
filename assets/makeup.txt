@@ -1,0 +1,47 @@
+Toner
+Mirror
+Brightener
+Makeup kit
+Nail polish
+Lip gloss
+Lip liner
+Foundation
+Eyeliner
+Eye shadow
+Lipstick
+Mascara
+Cleanser
+Tanning lotion
+Bronzer
+Moisturizer
+Face cream
+Concealer
+Primer
+Blush
+Brush
+
+Perfume
+Hand lotion
+Razor
+Tissues
+Sunglasses
+Hand mirror
+Wet wipe
+Toothbrush
+Sunscreen
+Deodorant
+Toothpaste
+Cotton swab
+Tweezers
+Scissors
+Mouthwash
+Dental floss
+
+Comb
+Hair spray
+Hair clip
+Hair band
+Hairbrush
+Bobby pin
+Hair dryer
+Hair gel

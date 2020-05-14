@@ -1,0 +1,160 @@
+Cheese
+Egg
+Butter
+Food
+
+Margarine
+Yogurt
+Cottage cheese
+Ice cream
+Cream
+Sandwich
+Sausage
+Hamburger
+Hot dog
+Bread
+Pizza
+Steak
+Roast chicken
+Fish
+Seafood
+Ham
+Kebab
+Bacon
+Sour cream
+Fried chicken
+Omelet
+Broth
+Tossed salad
+Dressing
+Pasta
+Rice
+Soup
+
+Breakfast
+
+Marmalade
+Breakfast burrito
+Hot chocolate
+Donut
+Porridge
+Muffin
+Waffle
+Tomato
+Croissant
+Pancake
+Toast
+Breakfast sandwich
+Milk
+Orange juice
+Breakfast cereal
+Coffee
+
+Fast Food
+
+Cheeseburger
+Milk shake
+Burrito
+Cookie
+Taco
+Donuts
+Baguette
+Soft drink
+Onion ring
+Pretzel
+Chip
+Noodle
+
+Bread
+
+White bread
+Wheat bread
+Whole grain bread
+Rye bread
+Hot dog bun
+Hamburger bun
+Swiss roll
+Bagel
+Roll
+Breadstick
+French bread/ baguette
+Drinks
+Wine
+Lemonade
+Iced tea
+Juice
+Milkshake
+Water
+Tea
+Beer
+Soda
+Tomato juice
+Smoothie
+Coconut milk
+Fruit juice
+Cocoa
+Tea bag
+Green tea
+Chocolate milk
+
+Vege
+
+Corn
+Mushroom
+Broccoli
+Cucumber
+Bell pepper
+Pineapple
+Rutabaga
+Carrot
+Brussels sprout
+Pumpkin
+Cabbage
+Potato
+Eggplant
+Sweet potato
+Turnip
+Zucchini
+Green chilli
+Onion
+Lettuce
+Radish
+Pea
+Asparagus
+Celery
+Green pepper
+French beans
+Spinach
+Beet
+Chili peppers
+Bean
+
+Fruit
+
+Apple
+Watermelon
+Orange
+Pear
+Cherry
+Strawberry
+Nectarine
+Grape
+Mango
+Blueberry
+Pomegranate
+Starfruit
+Plum
+Banana
+Raspberry
+Mandarin
+Jackfruit
+Papaya
+Kiwi
+Lime
+Lemon
+Apricot
+Grapefruit
+Melon
+Coconut
+Avocado
+Peach

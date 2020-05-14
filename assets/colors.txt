@@ -1,0 +1,30 @@
+aqua
+black
+blue
+brown
+burgundy
+coral
+crimson
+cyan
+gold
+green
+grey
+indigo
+jade
+lavender
+mint
+moss green
+mustard
+navy
+olive
+orange
+peach
+pink
+pistachio
+purple
+red
+rose
+silver
+sky blue
+white
+yellow
