@@ -1,4 +1,4 @@
-Apparel
+Apparel-1.1,1.5-clothes.txt-Apparel,Womens,Winter,Accessories
 Alpaca Connection
 Boot Barn
 Buckle
@@ -12,6 +12,7 @@ Forever 21
 Goldy's Locker Room
 Hockey Minnesota by Goldy's Locker Room
 L.L.Bean
+Levi's
 Lids
 Macy's
 Marshalls
@@ -28,19 +29,19 @@ Urban Outfitters
 Vikings Locker Room
 Zara
 
-Beauty
+Beauty-0.6,1.5-makeup.txt-Makeup
 Aveda Experience Center
 Bare Minerals
 Bath & Body Works
 Birchbox at Walgreens
 Brow Art 23
 CBD Essentials
-Dollar Shave Club (Vending Machine)
+Dollar Shave Club
 Final Cut Sports Barbershop
-GNC/General Nutrition Center
+General Nutrition Center
 Gold Elements
-GwiYoMi HAIR (Kiosk)
-Hollywood Hair (Kiosk)
+GwiYoMi HAIR
+Hollywood Hair
 Kiehl's
 L'Occitane
 L.A. Nails
@@ -48,7 +49,7 @@ lululemon experiential store
 Lush
 M Health Fairview
 MAC Cosmetics
-Medicpad USA (Kiosk)
+Medicpad USA
 Morphe
 Nail Trix
 Origins
@@ -63,11 +64,7 @@ The Body Shop
 Ulta Beauty
 White Barn Candle
 
-Department
-Nordstrom
-BestBuy
-
-Tech
+Tech-2.5,1.5-tech.txt-Tech
 Amazon 4-star
 Apple
 AT&T
@@ -89,7 +86,8 @@ A Sure Fit
 Holiday Stationstore
 Street Corner News
 Walgreens
-Home
+
+Home-1.1,1.1-home.txt-Home
 Anthropologie
 Canvas Studio
 Cariloha
@@ -108,12 +106,11 @@ Spencer's
 Tervis
 Yankee Candle Co.
 Jewelery
-925 Sterling Avenue (Kiosk)
 ALEX AND ANI
 Ben Bridge Jeweler
-Body Corner (Kiosk)
+Body Corner
 Brighton
-East Side Jewelry (Kiosk)
+East Side Jewelry
 Fixology
 Fossil
 Helzberg Diamonds
@@ -126,13 +123,13 @@ Lotus Beads
 Lovisa
 Pandora Jewelry
 Persepolis
-Piercing Pagoda (Kiosk)
+Piercing Pagoda
 Riddle's Jewelry
 Swarovski
 Swatch
 Zales
 
-Shoes
+Shoes-1.5,1.5-shoes.txt-Shoes
 Aldo
 ASICS
 Clarks
@@ -151,7 +148,7 @@ Journeys
 Kids Foot Locker
 Merrell Shoes
 Nike
-Shoe MGK (Kiosk)
+Shoe MGK
 Skechers
 SoftMoc
 Steve Madden
@@ -163,7 +160,7 @@ UGG
 Vans
 Villa Shoes
 
-Womens Apparel
+Womens Apparel-1.0,1.5-clothes.txt-Apparel,Womens,Winter,Accessories
 Abercrombie & Fitch
 Aerie
 Aéropostale
@@ -185,7 +182,7 @@ Christopher & Banks
 Club Monaco
 Coach
 Cotton:On
-Custom One (Kiosk)
+Custom One
 Destination Maternity
 Dior Boutique @ Nordstrom
 Eddie Bauer
@@ -195,7 +192,7 @@ Express
 Fabletics
 Francesca's Collections
 Free People
-Gap / Gap Body
+Gap
 Garage
 Got Kilt?
 Gucci Boutique @ Nordstrom
@@ -206,7 +203,6 @@ Hot Topic
 J.Jill
 kate spade new york
 Lane Bryant
-Levi's
 Live Love Dream
 Loft
 Lucky Brand
@@ -230,7 +226,7 @@ White House | Black Market
 Windsor
 Zumiez
 
-Mens Apparel
+Mens Apparel-1.0,1.5-clothes.txt-Apparel,Winter,Accessories
 BOSS
 Duluth Trading Co. - Men's Underwear Shop
 H&M Man
@@ -239,7 +235,7 @@ INDOCHINO
 Topman @ Nordstrom
 UNTUCKit
 
-Coffee
+Coffee-0.6,1.5-foods.txt-Drinks,Breakfast
 Caribou Coffee
 DAVIDsTEA
 Dunkin'
@@ -249,7 +245,7 @@ Nordstrom eBar
 Sencha Tea Bar
 Starbucks Coffee
 
-Food
+Food-0.5,1.5-foods.txt-Food,Breakfast,Fast Food,Bread,Drinks
 Burger Burger
 Chick-fil-A
 Chicken Guy
@@ -300,13 +296,14 @@ The Works Kitchen at GameWorks
 Twin City Grill
 Wahlburgers
 
-Sweets
+Sweets-0.3,1.5-foods.txt-Sweets
 Auntie Anne's
 Baking Betty's
 Carlo's Bakery
 Cinnabon
 Cold Stone Creamery
-Dairy Queen/Orange Julius
+Dairy Queen
+Orange Julius
 Doc Popcorn
 Dough Dough
 Duck Donuts
@@ -334,5 +331,5 @@ Rybicki Cheese
 Sugar Factory
 Sweet Treats
 Wafels & Dinges
-Wetzel's Pretzels (Kiosk)
+Wetzel's Pretzels
 Wonders Ice Cream

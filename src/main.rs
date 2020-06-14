@@ -1,12 +1,18 @@
 use rand::Rng;
 use std::cmp::Ordering;
 
+mod curses;
 mod lib;
+//mod listview;
+//mod listview_top;
+//mod listview_top_trait;
 mod shops;
 mod structs;
+mod traits;
 mod utils;
 use structs::*;
 use utils::*;
+//use curses::*;
 
 fn base_loop(shopper: &mut Shopper, mall: &mut Mall) {
     loop {
@@ -203,5 +209,6 @@ fn in_shop<'a>(
 
 fn main() {
     //lib::game();
-    shops::main();
+    let rd_names = shops::gen_rd_shop_names("Beauty", 6);
+    curses::gen_board(rd_names);
 }

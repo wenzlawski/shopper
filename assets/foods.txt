@@ -1,8 +1,7 @@
+Food
 Cheese
 Egg
 Butter
-Food
-
 Margarine
 Yogurt
 Cottage cheese
@@ -32,7 +31,6 @@ Rice
 Soup
 
 Breakfast
-
 Marmalade
 Breakfast burrito
 Hot chocolate
@@ -51,7 +49,6 @@ Breakfast cereal
 Coffee
 
 Fast Food
-
 Cheeseburger
 Milk shake
 Burrito
@@ -66,7 +63,6 @@ Chip
 Noodle
 
 Bread
-
 White bread
 Wheat bread
 Whole grain bread
@@ -77,7 +73,8 @@ Swiss roll
 Bagel
 Roll
 Breadstick
-French bread/ baguette
+Baguette
+
 Drinks
 Wine
 Lemonade
@@ -98,7 +95,6 @@ Green tea
 Chocolate milk
 
 Vege
-
 Corn
 Mushroom
 Broccoli
@@ -130,7 +126,6 @@ Chili peppers
 Bean
 
 Fruit
-
 Apple
 Watermelon
 Orange
@@ -158,3 +153,105 @@ Melon
 Coconut
 Avocado
 Peach
+
+Sweets
+Skittles
+Smarties
+Galaxy
+Minstrels
+Galaxy Counters
+Toffee Crisp
+Cadbury
+Cadbury Wispa
+Cadbury Creme Egg
+Cadbury Buttons
+Starburst
+Jelly Tots
+Kinder Surprise
+Kinder Bueno
+Kinder Bars
+Haribo Starmix
+Haribo Tangfastics
+Haribo Gold Bears
+Fruit Pastilles
+Chupa Chups
+Yorkie
+Dip Dab
+Refreshers
+Revels
+Jelly Babies
+Milky Way
+Mars Bar
+Magic Stars
+Maltesers
+Munchies
+Mighty Munch
+M&M's
+Caramel Nibbles
+Wine Gums
+Rowntree's Randoms
+Twix
+Nerds
+Ferrero Rocher
+Bounty
+Lindt Truffles
+Milky Bar
+Toblerone
+Snikers
+Lion
+Cadbury Snack
+Aero
+Aero Mint
+Crunchie
+Kit Kat
+Tootie Frooties
+Curly Wurly
+Polo Original
+Walkers
+Hunky Dory
+Doritos
+Tayto
+King
+Pringles
+Hula Hoops
+Cadbury Caramel
+Flying Saucers
+Rolo
+Cadbury Eclairs
+Choc Dip
+Love Hearts
+WHAM
+Milka
+Daim Bar
+Hubba Bubba Gum
+Cadbury Roses
+Mini Eggs Cadbury
+Maoam
+Double Decker
+Animal Bar
+Picnic
+Mentos
+Millions
+Drumstick Lollies
+Candy Sticks
+Time Out
+Moro
+Chomp
+Cadburys Celebrations
+Fudge
+Silvermints
+Werther's Original
+Mars Delight
+The Jelly Bean Factory
+Rowntree's Fruit Gums
+Fox's Glacier Mints
+Chickatees
+Candy Necklace
+Raspberry Bon Bons
+Candy Floss
+Quality Street
+Chipsticks
+After Eight
+Ben & Jerry's
+Jawbreaker
+Everlasting Gobstopper

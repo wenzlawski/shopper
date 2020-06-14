@@ -1,3 +1,37 @@
+Makeup
+Aveda Experience Center
+Bare Minerals
+Bath & Body Works
+Birchbox at Walgreens
+Brow Art 23
+CBD Essentials
+Dollar Shave Club
+Final Cut Sports Barbershop
+GNC/General Nutrition Center
+Gold Elements
+GwiYoMi HAIR
+Hollywood Hair
+Kiehl's
+L'Occitane
+L.A. Nails
+lululemon experiential store
+Lush
+M Health Fairview
+MAC Cosmetics
+Medicpad USA
+Morphe
+Nail Trix
+Origins
+Peloton
+Perfumania
+Princess & Diva Kids Fun Spa
+Relaxing Massage
+Sephora
+Seven7h Sense Botanical Therapy
+Sigma Beauty
+The Body Shop
+Ulta Beauty
+White Barn Candle
 Toner
 Mirror
 Brightener
@@ -19,7 +53,6 @@ Concealer
 Primer
 Blush
 Brush
-
 Perfume
 Hand lotion
 Razor
@@ -36,7 +69,6 @@ Tweezers
 Scissors
 Mouthwash
 Dental floss
-
 Comb
 Hair spray
 Hair clip

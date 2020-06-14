@@ -1,5 +1,4 @@
-Mens
-
+Apparel
 Sweater
 Shirt
 Jeans
@@ -40,31 +39,32 @@ Boots
 Wallet
 Handbag
 Watch
-Womens
-Sheath dress
-Dress
 Gym clothes
-Bra
-Tank top
 Hoodie
-Long coat
+Tank top
 Uniform
-Coat
-Dress pants
-Skirt
-Thong
 Hat
 Necklace
 Ring
 Earrings
 Perfume
+
+Womens
+Sheath dress
+Dress
+Bra
+Long coat
+Coat
+Dress pants
+Skirt
+Thong
 Mittens
 Bracelet
 Purse
 Slip
 High-heeled shoes
-Flip-flops
 Stockings
+
 Winter
 Beanie
 Fleece jacket
@@ -79,6 +79,7 @@ Other
 Sneakers
 High heels
 Winter coat
+
 Accessories
 Apron
 Hair clip
